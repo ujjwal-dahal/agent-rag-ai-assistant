@@ -1,0 +1,14 @@
+Artificial Intelligence (AI) is a field of computer science
+that focuses on creating systems capable of performing tasks
+that normally require human intelligence.
+
+Machine Learning (ML) is a subset of Artificial Intelligence.
+It allows computers to learn patterns from data and make
+predictions or decisions without being explicitly programmed
+for every task.
+
+Retrieval-Augmented Generation (RAG) combines information
+retrieval with Large Language Models. A RAG system retrieves
+relevant information from external documents and provides
+that information to the language model before generating
+an answer.

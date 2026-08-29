@@ -1,0 +1,242 @@
+# =========================================================
+# Python
+# =========================================================
+
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Python build / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+
+# =========================================================
+# Virtual Environments
+# =========================================================
+
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+.python-version
+
+
+# =========================================================
+# Environment Variables / Secrets
+# =========================================================
+
+.env
+.env.*
+!.env.example
+
+*.key
+*.pem
+secrets/
+credentials/
+
+
+# =========================================================
+# Logs
+# =========================================================
+
+*.log
+logs/
+
+
+# =========================================================
+# Testing / Coverage
+# =========================================================
+
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.hypothesis/
+coverage.xml
+nosetests.xml
+
+
+# =========================================================
+# Jupyter Notebook
+# =========================================================
+
+.ipynb_checkpoints/
+
+
+# =========================================================
+# Cache
+# =========================================================
+
+.cache/
+.mypy_cache/
+.pyre/
+.pytype/
+.pyre/
+.ruff_cache/
+.dmypy.json
+dmypy.json
+
+
+# =========================================================
+# RAG / Vector Database
+# =========================================================
+
+# Local vector database files
+chroma/
+chromadb/
+vectorstore/
+vector_store/
+
+# FAISS indexes
+*.faiss
+*.index
+
+# Local embedding / retrieval cache
+embedding_cache/
+.embeddings_cache/
+
+# Temporary RAG data
+data/tmp/
+data/cache/
+
+
+# =========================================================
+# Temporary Files
+# =========================================================
+
+*.tmp
+*.temp
+temp/
+tmp/
+
+tempCodeRunnerFile.py
+
+
+# =========================================================
+# OS Files
+# =========================================================
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Linux
+*~
+
+
+# =========================================================
+# IDE / Editors
+# =========================================================
+
+# VS Code
+.vscode/
+
+# PyCharm / IntelliJ
+.idea/
+*.iml
+
+# Sublime Text
+*.sublime-workspace
+*.sublime-project
+
+
+# =========================================================
+# Docker
+# =========================================================
+
+# Docker override files
+docker-compose.override.yml
+
+# Docker local environment files
+docker.env
+
+# Docker logs
+docker-*.log
+
+
+# =========================================================
+# Local AI / Model Files
+# =========================================================
+
+# Do not commit downloaded model weights
+models/
+model/
+*.gguf
+*.safetensors
+*.bin
+*.pt
+*.pth
+
+# Ollama local data
+ollama/
+
+
+# =========================================================
+# Data Files
+# =========================================================
+
+# Ignore large/local datasets
+*.csv
+*.parquet
+*.pkl
+*.pickle
+
+# Keep the data directory structure if needed
+# !data/
+# !data/sample/
+
+
+# =========================================================
+# OS / Editor Temporary Files
+# =========================================================
+
+*.swp
+*.swo
+*.bak
+*.orig
+
+
+# =========================================================
+# Documentation Build
+# =========================================================
+
+docs/_build/
+site/
+
+
+# =========================================================
+# Miscellaneous
+# =========================================================
+
+*.pid
+*.seed
+.pytest_cache/

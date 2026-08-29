@@ -1,0 +1,47 @@
+flowchart LR
+
+    A[User]
+
+    B[FastAPI<br/>REST API]
+
+    C[LangGraph<br/>AI Agent]
+
+    D[Groq LLM]
+
+    E{Tool Calling}
+
+    F[RAG Search]
+
+    G[Calculator]
+
+    H[Vector Database]
+
+    I[Retrieved<br/>Context]
+
+    J[Ollama]
+
+    K[Qwen 2.5 1.5B<br/>Local LLM]
+
+    L[Structured JSON<br/>Response]
+
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+
+    E -->|RAG Query| F
+    E -->|Math Query| G
+
+    F --> H
+    H --> I
+    I --> D
+
+    G --> D
+
+    B --> J
+    J --> K
+    K --> B
+
+    D --> L
+    L --> B
+    B --> A
