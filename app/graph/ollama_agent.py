@@ -19,7 +19,7 @@ from langgraph.prebuilt import (
     tools_condition,
 )
 
-from app.llm.groq_llm import llm
+from app.llm.ollama_llm import llm
 
 from app.tools.calculator import calculator
 from app.tools.rag_tool import rag_search

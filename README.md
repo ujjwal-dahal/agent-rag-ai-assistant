@@ -1,91 +1,238 @@
 # AI Assistant
 
-A containerized AI Assistant built using Large Language Models (LLMs), Retrieval-Augmented Generation (RAG), tool calling, structured JSON output, and local LLM inference using Ollama.
+A production-oriented, containerized AI Assistant built using Large Language Models (LLMs), Retrieval-Augmented Generation (RAG), tool calling, structured responses, local LLM inference, FastAPI, Streamlit, and Docker.
 
-## 1. Project Overview
+The project is divided into two stages:
 
-This project implements an AI Assistant capable of answering user questions, retrieving relevant information from a knowledge base, performing mathematical calculations, and returning structured responses through a FastAPI API.
+- **Task 1:** Build an AI Assistant using LLM, RAG, tool calling, structured output, and local LLM deployment.
+- **Task 2:** Productionize the AI Assistant with a web UI, reliability mechanisms, performance improvements, fallback models, rate limiting, error handling, and Docker Compose deployment.
 
-The system combines a cloud-based LLM with local open-source LLM inference. LangGraph is used to manage the agent workflow and tool-calling process.
+---
 
-The application is containerized using Docker for consistent and reproducible deployment.
+# 1. Project Overview
 
-## 2. Features
+This project implements an AI Assistant capable of:
+
+- Answering general user questions
+- Retrieving information from a knowledge base using RAG
+- Performing mathematical calculations using tools
+- Generating structured responses
+- Using a cloud-based LLM provider
+- Using a locally hosted open-source LLM through Ollama
+- Providing a web-based user interface
+- Handling temporary model failures using retries
+- Falling back to a local model when the primary provider is unavailable
+- Applying rate limiting to API requests
+- Returning graceful error responses
+- Running the complete system using Docker Compose
+
+The system uses **LangGraph** to manage the agent workflow and **LangChain** to integrate LLMs and tools.
+
+---
+
+# 2. Tasks Implemented
+
+## Task 1: Build an AI Assistant
+
+The following requirements were implemented:
+
+- LLM integration
+- Prompt engineering
+- Structured response generation
+- Tool calling
+- RAG pipeline
+- Document ingestion
+- Document chunking
+- Embeddings
+- Vector database
+- Local LLM deployment
+- FastAPI backend
+- Docker containerization
+
+## Task 2: Productionize the AI Assistant
+
+The following production-oriented features were added:
+
+- Streamlit web UI
+- Frontend-to-backend communication
+- Docker Compose
+- Concurrent request handling through FastAPI
+- Retry mechanism
+- Rate limiting
+- Primary/fallback model architecture
+- Error handling
+- Graceful degradation
+- Local Ollama inference
+- Backend health checking
+- Containerized frontend and backend
+- Production-oriented API structure
+
+---
+
+# 3. Features
+
+## AI Features
 
 - LLM integration using Groq
 - Local LLM inference using Ollama
+- Qwen 2.5 1.5B local model
 - Retrieval-Augmented Generation (RAG)
 - Tool calling
 - Calculator tool
+- RAG search tool
 - Vector-based document retrieval
 - Structured JSON responses
 - Prompt engineering
-- FastAPI REST API
-- Interactive Swagger API documentation
-- Docker containerization
-- LangGraph-based agent workflow
+- LangGraph agent workflow
 
-## 3. Technologies Used
+## Production Features
 
-| Technology      | Purpose                               |
-| --------------- | ------------------------------------- |
-| Python          | Application development               |
-| FastAPI         | REST API development                  |
-| LangChain       | LLM and tool integration              |
-| LangGraph       | Agent workflow and tool orchestration |
-| Groq            | Cloud LLM provider                    |
-| Ollama          | Local LLM inference                   |
-| Qwen 2.5 1.5B   | Local open-source LLM                 |
-| RAG             | Knowledge retrieval                   |
-| Vector Database | Storage and retrieval of embeddings   |
-| Docker          | Containerization                      |
-| Pydantic        | Request and response validation       |
+- Streamlit web interface
+- FastAPI backend
+- Retry mechanism
+- Rate limiting
+- Fallback model
+- Error handling
+- Graceful degradation
+- Concurrent request handling
+- Docker Compose deployment
+- Health-checkable services
+- Separate frontend, backend, and model services
 
-## 4. System Architecture
+---
 
-The system follows an agent-based architecture.
+# 4. Technologies Used
+
+| Technology      | Purpose                              |
+| --------------- | ------------------------------------ |
+| Python          | Application development              |
+| FastAPI         | REST API backend                     |
+| Streamlit       | Web UI                               |
+| LangChain       | LLM and tool integration             |
+| LangGraph       | Agent workflow and orchestration     |
+| Groq            | Primary cloud LLM provider           |
+| Ollama          | Local LLM inference                  |
+| Qwen 2.5 1.5B   | Local fallback LLM                   |
+| RAG             | Knowledge retrieval                  |
+| Embeddings      | Text vectorization                   |
+| Vector Database | Vector storage and similarity search |
+| Pydantic        | Request and response validation      |
+| Docker          | Containerization                     |
+| Docker Compose  | Multi-container deployment           |
+
+---
+
+# 5. System Architecture
+
+The productionized system follows a layered architecture.
 
 ```text
-                         User
-                           |
-                           v
-                    FastAPI REST API
-                           |
-             +-------------+-------------+
-             |                           |
-             v                           v
-       AI Assistant API          Ollama Chat API
-             |                           |
-             v                           v
-         LangGraph                 Ollama Server
-             |                           |
-             v                           v
-        Groq LLM                  Qwen 2.5 1.5B
-             |
-             v
-       Tool Calling
-             |
-       +-----+------+
-       |            |
-       v            v
-   RAG Search    Calculator
-       |
-       v
-  Vector Database
-       |
-       v
- Retrieved Context
-       |
-       v
-     LLM
-       |
-       v
- Structured JSON Response
+                              USER
+                                |
+                                v
+                       Streamlit Web UI
+                                |
+                                | HTTP Request
+                                v
+                       FastAPI Backend
+                                |
+                    +-----------+-----------+
+                    |                       |
+                    v                       v
+              Rate Limiting          Error Handling
+                    |                       |
+                    +-----------+-----------+
+                                |
+                                v
+                         AI Assistant
+                          LangGraph
+                                |
+                    +-----------+-----------+
+                    |                       |
+                    v                       v
+              Primary LLM             Fallback LLM
+                 Groq                    Ollama
+                    |                 Qwen 2.5 1.5B
+                    |                       |
+                    +-----------+-----------+
+                                |
+                                v
+                         Tool Calling
+                                |
+                    +-----------+-----------+
+                    |                       |
+                    v                       v
+                RAG Search             Calculator
+                    |
+                    v
+             Vector Database
+                    |
+                    v
+            Retrieved Context
+                    |
+                    v
+                    LLM
+                    |
+                    v
+             Structured Response
+                    |
+                    v
+               FastAPI API
+                    |
+                    v
+              Streamlit UI
 ```
 
-## 5. Agent Workflow
+---
 
-The LangGraph agent follows the following workflow:
+# 6. Task 2 Production Architecture
+
+The production architecture separates the application into independent services.
+
+```text
++-------------------------------------------------------------+
+|                         Docker Compose                      |
+|                                                             |
+|  +------------------+       +----------------------------+  |
+|  |    Frontend      |       |          Backend           |  |
+|  |    Streamlit     |-----> |           FastAPI          |  |
+|  |    Port: 8501    | HTTP  |           Port: 8000       |  |
+|  +------------------+       +-------------+--------------+  |
+|                                           |                 |
+|                                           | HTTP            |
+|                                           v                 |
+|                               +--------------------------+  |
+|                               |          Ollama           |  |
+|                               |        Port: 11434        |  |
+|                               |      Qwen 2.5 1.5B       |  |
+|                               +--------------------------+  |
+|                                                             |
++-------------------------------------------------------------+
+```
+
+The three main services are:
+
+1. **Frontend**
+   - Streamlit
+   - Provides the user interface
+   - Sends requests to the FastAPI backend
+
+2. **Backend**
+   - FastAPI
+   - Handles API requests
+   - Performs rate limiting
+   - Executes AI workflows
+   - Handles retries and fallback logic
+
+3. **Ollama**
+   - Runs the local open-source model
+   - Provides local inference through the Ollama API
+
+---
+
+# 7. Agent Workflow
+
+The LangGraph agent follows this workflow:
 
 ```text
 User Question
@@ -111,17 +258,44 @@ Tool Result
 Final Answer
 ```
 
-When the user asks a question that requires information from the knowledge base, the LLM calls the `rag_search` tool.
+The assistant can select tools based on the user's question.
 
-For mathematical questions, the LLM calls the `calculator` tool.
+For example:
 
-After receiving the tool result, the LLM generates the final answer.
+```text
+User Question
+      |
+      v
+      LLM
+      |
+      +----> RAG Required
+      |          |
+      |          v
+      |      rag_search
+      |          |
+      |          v
+      |      Retrieved Data
+      |
+      +----> Calculation Required
+                 |
+                 v
+             calculator
+                 |
+                 v
+             Calculation
+                 |
+                 v
+             Final LLM
+                 |
+                 v
+             Final Answer
+```
 
-## 6. RAG Pipeline
+---
 
-The RAG pipeline allows the assistant to answer questions using information stored in an external knowledge base.
+# 8. RAG Pipeline
 
-The pipeline consists of the following stages:
+The RAG system allows the assistant to retrieve information from a knowledge base before generating an answer.
 
 ```text
 Documents
@@ -151,39 +325,43 @@ LLM
 Final Answer
 ```
 
-### Document Ingestion
+## Document Ingestion
 
 Documents are loaded into the application and prepared for retrieval.
 
-### Chunking
+## Document Chunking
 
-Large documents are divided into smaller text chunks. Chunking allows the retrieval system to find only the relevant sections instead of processing the entire document.
+Large documents are divided into smaller chunks so that relevant sections can be retrieved efficiently.
 
-### Embeddings
+## Embeddings
 
-Each text chunk is converted into a numerical vector representation using an embedding model.
+Each document chunk is converted into a numerical vector representation.
 
-### Vector Database
+## Vector Database
 
 The generated embeddings are stored in a vector database.
 
-When a user asks a question, the question is also converted into an embedding. The system then searches for the most similar document chunks.
+## Similarity Search
 
-### Retrieval
+When the user asks a question, the question is converted into an embedding and compared against stored document vectors.
 
-The most relevant chunks are returned to the LLM as context.
+## Context Retrieval
 
-### Generation
+The most relevant document chunks are returned to the LLM.
 
-The LLM uses the retrieved context to generate a grounded response.
+## Generation
 
-## 7. Tool Calling
+The LLM generates an answer using the retrieved context.
 
-The assistant supports multiple tools.
+---
 
-### RAG Search
+# 9. Tool Calling
 
-The `rag_search` tool searches the knowledge base and returns relevant information.
+The assistant currently supports multiple tools.
+
+## RAG Search
+
+The `rag_search` tool retrieves relevant information from the knowledge base.
 
 Example:
 
@@ -201,9 +379,9 @@ LLM:
 Generates final answer
 ```
 
-### Calculator
+## Calculator
 
-The `calculator` tool is used for mathematical calculations.
+The `calculator` tool performs mathematical calculations.
 
 Example:
 
@@ -218,10 +396,12 @@ Calculator:
 Returns 1000
 
 LLM:
-Returns the final answer
+Returns final answer
 ```
 
-## 8. Structured Output
+---
+
+# 10. Structured Output
 
 The `/chat` endpoint returns a structured JSON response.
 
@@ -229,7 +409,7 @@ Example:
 
 ```json
 {
-  "answer": "Retrieval-Augmented Generation (RAG) combines information retrieval with a Large Language Model to generate answers using retrieved external information.",
+  "answer": "Artificial Intelligence is a field of computer science...",
   "source_used": true,
   "tool_used": "rag_search"
 }
@@ -237,48 +417,288 @@ Example:
 
 The response contains:
 
-- `answer`: Final response generated by the LLM
-- `source_used`: Indicates whether the RAG knowledge source was used
-- `tool_used`: Name of the tool used by the agent
+- `answer`: Final generated answer
+- `source_used`: Indicates whether RAG was used
+- `tool_used`: Indicates which tool was used
 
-## 9. Prompt Engineering
+Pydantic is used to validate the response structure.
 
-A system prompt is used to control the behavior of the AI Assistant.
+---
 
-The prompt defines:
+# 11. Prompt Engineering
+
+A system prompt controls the behavior of the AI Assistant.
+
+The prompt provides instructions regarding:
 
 - When to use RAG
 - When to use the calculator
 - How to use retrieved information
-- How to avoid hallucinating knowledge-base information
-- How to generate concise responses
+- How to avoid hallucinating information
+- How to generate concise answers
 - How to handle unavailable information
-- How to avoid exposing internal tool calls
+- How to avoid exposing internal tool execution details
 
-The LLM is configured with a low temperature to provide more deterministic responses.
+The local Ollama model is configured with:
 
-## 10. Local LLM Deployment
+```text
+temperature = 0
+```
 
-Ollama is used to run an open-source LLM locally.
+A low temperature makes responses more deterministic.
 
-The currently configured local model is:
+---
+
+# 12. Primary and Fallback Model
+
+Task 2 introduces a fallback architecture to improve reliability.
+
+The system uses:
+
+```text
+Primary Model
+     |
+     v
+    Groq
+     |
+  Success?
+   /    \
+ Yes     No
+ |        |
+ v        v
+Answer   Retry
+           |
+       Still Fails?
+         /    \
+       No      Yes
+       |        |
+       v        v
+     Answer   Ollama
+                |
+                v
+          Qwen 2.5 1.5B
+                |
+                v
+             Answer
+```
+
+## Primary Model
+
+The primary model is provided through Groq.
+
+## Fallback Model
+
+If the primary provider fails after the configured retry attempts, the application uses the local Ollama model.
+
+The fallback model is:
 
 ```text
 qwen2.5:1.5b
 ```
 
-The model is served through the Ollama API.
+This provides continued operation even when the cloud provider is temporarily unavailable.
 
-The Docker container communicates with the Ollama server running on the host machine using:
+---
+
+# 13. Retry Mechanism
+
+A retry mechanism is implemented for temporary LLM failures.
+
+The general flow is:
 
 ```text
-http://host.docker.internal:11434
+LLM Request
+     |
+     v
+Request Failed?
+   /       \
+ No        Yes
+ |          |
+ v          v
+Answer    Retry
+             |
+             v
+        Retry Limit?
+          /      \
+        No        Yes
+        |          |
+        v          v
+      Retry     Fallback
 ```
 
-The available Ollama models can be checked using:
+The system retries temporary failures before switching to the fallback model.
+
+This reduces failures caused by temporary network or provider problems.
+
+---
+
+# 14. Rate Limiting
+
+Rate limiting is implemented to prevent excessive API requests.
+
+The purpose of rate limiting is to:
+
+- Prevent API abuse
+- Reduce unnecessary model calls
+- Protect backend resources
+- Control provider usage
+- Improve system stability
+
+The general flow is:
+
+```text
+Incoming Request
+       |
+       v
+Rate Limiter
+       |
+       v
+Limit Exceeded?
+    /       \
+  No         Yes
+  |           |
+  v           v
+Process     HTTP 429
+Request     Response
+```
+
+When the request limit is exceeded, the API returns an appropriate HTTP error instead of executing another model request.
+
+---
+
+# 15. Error Handling and Graceful Degradation
+
+The application handles failures at multiple levels.
+
+Possible failures include:
+
+- Cloud LLM unavailable
+- Ollama unavailable
+- Network connection failure
+- Invalid API request
+- Tool execution failure
+- RAG retrieval failure
+- Model timeout
+
+Instead of exposing internal exceptions directly to users, the API returns controlled error responses.
+
+Example:
+
+```json
+{
+  "detail": "AI service is temporarily unavailable. Please try again later."
+}
+```
+
+The fallback model also provides graceful degradation.
+
+For example:
+
+```text
+Groq unavailable
+      |
+      v
+Retry
+      |
+      v
+Still unavailable
+      |
+      v
+Ollama
+      |
+      v
+Qwen 2.5 1.5B
+      |
+      v
+Response
+```
+
+---
+
+# 16. Performance Engineering
+
+FastAPI provides asynchronous request handling capabilities and can serve multiple requests concurrently.
+
+The system is structured so that:
+
+```text
+Request 1 ──> Backend ──> Model
+Request 2 ──> Backend ──> Model
+Request 3 ──> Backend ──> Model
+Request 4 ──> Backend ──> Model
+```
+
+This allows multiple users to access the API without requiring a separate backend process for every request.
+
+Performance improvements include:
+
+- Local model inference
+- Low-temperature deterministic generation
+- Rate limiting
+- Retry control
+- Lightweight Qwen model
+- Separate frontend and backend services
+- Dockerized service architecture
+
+---
+
+# 17. Model Optimization
+
+ONNX conversion was not applied to the LLM because the project uses:
+
+- Groq-hosted LLM inference
+- Ollama-based GGUF model inference
+
+The local model is already distributed in a quantized GGUF format.
+
+The configured local model uses:
+
+```text
+Q4_K_M
+```
+
+quantization, which reduces memory requirements and makes local inference more practical on CPU-based systems.
+
+Therefore, ONNX conversion is not necessary for the current architecture.
+
+---
+
+# 18. Local LLM Deployment
+
+Ollama is used to serve the local open-source model.
+
+Current model:
+
+```text
+qwen2.5:1.5b
+```
+
+The Docker backend communicates with the Ollama container using:
+
+```text
+http://ollama:11434
+```
+
+This is different from using `localhost`.
+
+Inside Docker Compose, services communicate using their service names.
+
+For example:
+
+```text
+Backend
+   |
+   v
+http://ollama:11434
+   |
+   v
+Ollama Container
+```
+
+Available models can be checked using:
 
 ```bash
-ollama list
+docker exec ollama ollama list
 ```
 
 The Ollama API can be tested using:
@@ -287,17 +707,19 @@ The Ollama API can be tested using:
 curl http://localhost:11434/api/tags
 ```
 
-## 11. FastAPI API
+---
 
-The application provides REST API endpoints.
+# 19. FastAPI API
 
-### Root Endpoint
+The backend exposes REST API endpoints.
+
+## Root Endpoint
 
 ```http
 GET /
 ```
 
-Response:
+Example response:
 
 ```json
 {
@@ -305,7 +727,7 @@ Response:
 }
 ```
 
-### Chat Endpoint
+## Chat Endpoint
 
 ```http
 POST /chat
@@ -324,20 +746,18 @@ Response:
 ```json
 {
   "answer": "Artificial Intelligence is a branch of computer science...",
-  "source_used": true,
-  "tool_used": "rag_search"
+  "source_used": false,
+  "tool_used": null
 }
 ```
 
-### Ollama Chat Endpoint
+## Ollama Chat Endpoint
 
 ```http
 POST /ollama/chat
 ```
 
-This endpoint sends the user query directly to the locally hosted Ollama model.
-
-Example request:
+Request:
 
 ```json
 {
@@ -345,9 +765,58 @@ Example request:
 }
 ```
 
-## 12. API Documentation
+The endpoint sends the request to the locally hosted Ollama model.
 
-FastAPI automatically provides interactive API documentation.
+---
+
+# 20. Streamlit Web UI
+
+Task 2 introduces a simple web interface using Streamlit.
+
+The frontend provides:
+
+- Question input
+- Submit button
+- AI response display
+- Backend communication
+- Error message display
+
+The architecture is:
+
+```text
+Browser
+   |
+   v
+Streamlit
+   |
+   | HTTP
+   v
+FastAPI
+   |
+   v
+AI Assistant
+   |
+   v
+Response
+   |
+   v
+Streamlit
+   |
+   v
+Browser
+```
+
+The Streamlit application runs on:
+
+```text
+http://localhost:8501
+```
+
+---
+
+# 21. API Documentation
+
+FastAPI automatically generates interactive API documentation.
 
 After starting the application, open:
 
@@ -355,9 +824,17 @@ After starting the application, open:
 http://localhost:8000/docs
 ```
 
-The Swagger interface can be used to test the available endpoints.
+The Swagger interface can be used to test:
 
-## 13. Project Structure
+```text
+GET /
+POST /chat
+POST /ollama/chat
+```
+
+---
+
+# 22. Project Structure
 
 ```text
 ai-assistant/
@@ -381,6 +858,9 @@ ai-assistant/
 │   └── schemas/
 │       └── response.py
 │
+├── frontend/
+│   └── streamlit_app.py
+│
 ├── data/
 │   └── documents/
 │
@@ -392,7 +872,9 @@ ai-assistant/
 └── README.md
 ```
 
-## 14. Environment Variables
+---
+
+# 23. Environment Variables
 
 Create a `.env` file in the project root.
 
@@ -400,21 +882,21 @@ Example:
 
 ```env
 GROQ_API_KEY=your_groq_api_key
-OLLAMA_BASE_URL=http://host.docker.internal:11434
+OLLAMA_BASE_URL=http://ollama:11434
+BACKEND_URL=http://backend:8000
 ```
 
-Do not commit the `.env` file to GitHub.
+Do not commit `.env` to GitHub.
 
-Add it to `.gitignore`:
+The `.gitignore` file contains:
 
 ```text
 .env
-__pycache__/
-*.pyc
-.venv/
 ```
 
-## 15. Installation
+---
+
+# 24. Installation
 
 Clone the repository:
 
@@ -423,13 +905,13 @@ git clone <your-repository-url>
 cd ai-assistant
 ```
 
-Create and activate a Python virtual environment:
+Create a virtual environment:
 
 ```bash
 python -m venv .venv
 ```
 
-Windows:
+Activate the environment on Windows:
 
 ```bash
 .venv\Scripts\activate
@@ -441,9 +923,11 @@ Install dependencies:
 pip install -r requirements.txt
 ```
 
-## 16. Ollama Setup
+---
 
-Install Ollama and make sure the Ollama server is running.
+# 25. Ollama Setup
+
+Install Ollama if running the model outside Docker.
 
 Pull the required model:
 
@@ -451,47 +935,59 @@ Pull the required model:
 ollama pull qwen2.5:1.5b
 ```
 
-Verify the installed model:
+Verify:
 
 ```bash
 ollama list
 ```
 
-Test the Ollama API:
+Test:
 
 ```bash
 curl http://localhost:11434/api/tags
 ```
 
-## 17. Running Without Docker
+When using Docker Compose, the Ollama service is started as part of the application stack.
 
-Start the FastAPI application:
+---
+
+# 26. Running Without Docker
+
+Start the FastAPI backend:
 
 ```bash
 uvicorn app.api.main:app --reload
 ```
 
-The API will be available at:
+The backend will be available at:
 
 ```text
 http://localhost:8000
 ```
 
-Swagger documentation:
+Start Streamlit separately:
 
-```text
-http://localhost:8000/docs
+```bash
+streamlit run frontend/streamlit_app.py
 ```
 
-## 18. Docker Deployment
+The frontend will be available at:
 
-Build the Docker image:
+```text
+http://localhost:8501
+```
+
+---
+
+# 27. Docker Deployment
+
+Build the backend image:
 
 ```bash
 docker build -t ai-assistant .
 ```
 
-Run the container:
+Run the backend:
 
 ```bash
 docker run -d \
@@ -501,21 +997,25 @@ docker run -d \
   ai-assistant
 ```
 
-Check running containers:
+Check the container:
 
 ```bash
 docker ps
 ```
 
-Check application logs:
+View logs:
 
 ```bash
 docker logs ai-assistant
 ```
 
-## 19. Docker Compose
+---
 
-If Docker Compose is configured, start the application using:
+# 28. Docker Compose Deployment
+
+The complete application can be started using Docker Compose.
+
+Build and start all services:
 
 ```bash
 docker compose up --build
@@ -527,13 +1027,55 @@ Run in detached mode:
 docker compose up --build -d
 ```
 
-Stop the application:
+Check services:
+
+```bash
+docker compose ps
+```
+
+Expected services:
+
+```text
+backend
+frontend
+ollama
+```
+
+Stop the complete application:
 
 ```bash
 docker compose down
 ```
 
-## 20. Testing the API
+---
+
+# 29. Service Ports
+
+| Service  |  Port | Purpose          |
+| -------- | ----: | ---------------- |
+| Frontend |  8501 | Streamlit Web UI |
+| Backend  |  8000 | FastAPI REST API |
+| Ollama   | 11434 | Local LLM API    |
+
+The application can therefore be accessed through:
+
+```text
+Frontend:
+http://localhost:8501
+
+Backend:
+http://localhost:8000
+
+Swagger:
+http://localhost:8000/docs
+
+Ollama:
+http://localhost:11434
+```
+
+---
+
+# 30. Testing the API
 
 The `/chat` endpoint can be tested using Swagger, Postman, or curl.
 
@@ -545,7 +1087,7 @@ curl -X POST "http://localhost:8000/chat" \
 -d "{\"question\":\"What is Artificial Intelligence?\"}"
 ```
 
-Example calculation:
+Calculator example:
 
 ```bash
 curl -X POST "http://localhost:8000/chat" \
@@ -553,7 +1095,7 @@ curl -X POST "http://localhost:8000/chat" \
 -d "{\"question\":\"Calculate 25 * 40\"}"
 ```
 
-Example RAG question:
+RAG example:
 
 ```bash
 curl -X POST "http://localhost:8000/chat" \
@@ -561,76 +1103,187 @@ curl -X POST "http://localhost:8000/chat" \
 -d "{\"question\":\"What is Retrieval-Augmented Generation?\"}"
 ```
 
-## 21. Verification
+Local Ollama example:
 
-The following components were verified during development:
-
-### Ollama Model Availability
-
-The Ollama API successfully returned the available local models, including:
-
-```text
-qwen2.5:1.5b
-gemma3:4b
-aiden_lu/minicpm-v2.6:Q4_K_M
-moondream:1.8b
-llama3.2-vision:11b
-gemma3:1b
-deepseek-r1:1.5b
+```bash
+curl -X POST "http://localhost:8000/ollama/chat" \
+-H "Content-Type: application/json" \
+-d "{\"question\":\"Explain Artificial Intelligence simply.\"}"
 ```
 
-### RAG Tool Calling
+---
 
-The LangGraph agent successfully:
+# 31. Verification
 
-1. Received the user question.
-2. Selected the `rag_search` tool.
-3. Retrieved relevant knowledge.
-4. Passed the retrieved information back to the LLM.
-5. Generated the final answer.
+The following components were verified during development.
 
-### FastAPI
+## Backend
 
-The FastAPI application successfully starts on:
+FastAPI successfully runs on:
 
 ```text
 http://0.0.0.0:8000
 ```
 
-The Swagger documentation is available at:
+The root endpoint returns:
 
-```text
-http://localhost:8000/docs
+```json
+{
+  "message": "AI Assistant API is running."
+}
 ```
 
-## 22. Limitations
+## Frontend to Backend Communication
 
-- Local LLM performance depends on available CPU, RAM, and system resources.
-- The quality of RAG responses depends on document quality, chunking, embeddings, and retrieval performance.
-- The current local model is relatively small and may provide less capable responses than larger models.
-- The application requires the Ollama server to be running for local-model requests.
+The Streamlit container communicates with the backend using the Docker Compose service name:
 
-## 23. Future Improvements
+```text
+http://backend:8000
+```
+
+This allows communication between containers without using `localhost`.
+
+## Ollama Connectivity
+
+The backend can communicate with the Ollama service using:
+
+```text
+http://ollama:11434
+```
+
+The Ollama API successfully returns the available local model.
+
+Current verified model:
+
+```text
+qwen2.5:1.5b
+```
+
+## RAG Tool Calling
+
+The LangGraph agent can:
+
+1. Receive the user question.
+2. Determine whether RAG is required.
+3. Call `rag_search`.
+4. Retrieve relevant information.
+5. Pass the retrieved context to the LLM.
+6. Generate the final answer.
+
+## Fallback
+
+When the primary model/provider is unavailable, the system can use the local Ollama model as a fallback.
+
+---
+
+# 32. Error Handling Flow
+
+The production request flow is:
+
+```text
+User Request
+     |
+     v
+FastAPI
+     |
+     v
+Rate Limiter
+     |
+     v
+Primary LLM
+     |
+     +---- Success ----> Response
+     |
+     +---- Failure
+             |
+             v
+           Retry
+             |
+             +---- Success ----> Response
+             |
+             +---- Failure
+                     |
+                     v
+                  Ollama
+                     |
+                     v
+               Qwen 2.5 1.5B
+                     |
+                     +---- Success ----> Response
+                     |
+                     +---- Failure
+                              |
+                              v
+                       Graceful Error
+```
+
+This prevents a single model/provider failure from immediately causing the complete application to fail.
+
+---
+
+# 33. Limitations
+
+- Local LLM performance depends on CPU, RAM, and available system resources.
+- Qwen 2.5 1.5B is a relatively small model.
+- The fallback model may produce lower-quality responses than the primary cloud model.
+- RAG quality depends on document quality, chunking, embedding model, and retrieval configuration.
+- Rate limiting configuration may need adjustment for production workloads.
+- The current deployment does not include cloud deployment.
+- Authentication and authorization are not currently implemented.
+- Persistent conversation memory is not currently implemented.
+
+---
+
+# 34. Future Improvements
 
 Possible improvements include:
 
-- Adding more external tools
-- Improving document chunking strategies
-- Adding metadata filtering to RAG
-- Implementing conversation memory
-- Adding streaming responses
 - Adding authentication and authorization
+- Adding conversation memory
+- Implementing response caching
+- Adding streaming responses
+- Improving RAG retrieval
+- Adding metadata filtering
 - Adding automated tests
-- Adding monitoring and logging
-- Deploying the application to a cloud platform
+- Adding monitoring and observability
+- Adding request tracing
+- Improving logging
+- Adding Prometheus and Grafana monitoring
+- Deploying to AWS, Azure, or GCP
+- Adding multiple fallback providers
 - Using a production-grade vector database
 - Evaluating different embedding models
-- Supporting multiple local LLMs
+- Implementing batch inference
+- Adding load balancing
+- Adding HTTPS and reverse proxy support
 
-## 24. Conclusion
+---
 
-This project demonstrates the development of a modern AI Assistant using LLM integration, RAG, tool calling, structured responses, LangGraph, FastAPI, Ollama, and Docker.
+# 35. Conclusion
 
-The system can combine external knowledge retrieval with LLM generation, perform tool-based operations, and expose the complete functionality through REST APIs.
+This project demonstrates the development and productionization of an AI Assistant using modern AI engineering technologies.
 
-The project provides a foundation for building more advanced agentic AI applications with additional tools, memory, retrieval strategies, and locally deployed models.
+Task 1 focuses on building the core AI system using:
+
+- LLM integration
+- RAG
+- Tool calling
+- Structured output
+- LangGraph
+- FastAPI
+- Ollama
+- Docker
+
+Task 2 extends the system into a more production-oriented application by adding:
+
+- Streamlit Web UI
+- Frontend-backend communication
+- Retry mechanism
+- Rate limiting
+- Fallback model
+- Error handling
+- Graceful degradation
+- Concurrent API request handling
+- Docker Compose deployment
+
+The resulting architecture provides a modular foundation for developing reliable and scalable Agentic AI applications.

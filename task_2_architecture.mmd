@@ -1,0 +1,56 @@
+flowchart LR
+
+    USER[User]
+
+    UI[Streamlit Web UI]
+
+    API[FastAPI Backend]
+
+    RATE[Rate Limiting]
+
+    CACHE[Response Cache]
+
+    RETRY[Retry Mechanism]
+
+    OLLAMA[Ollama Server]
+
+    MODEL[Qwen 2.5 1.5B]
+
+    FALLBACK[Groq Fallback Provider]
+
+    ERROR[Error Handling<br/>Graceful Degradation]
+
+    RESPONSE[JSON Response]
+
+
+    USER --> UI
+
+    UI --> API
+
+    API --> RATE
+
+    RATE --> CACHE
+
+    CACHE --> RETRY
+
+    RETRY --> OLLAMA
+
+    OLLAMA --> MODEL
+
+    MODEL --> RESPONSE
+
+    OLLAMA -. Service Failure .-> FALLBACK
+
+    FALLBACK --> RESPONSE
+
+    RETRY -. Retry Failed .-> ERROR
+
+    FALLBACK -. Fallback Failed .-> ERROR
+
+    ERROR --> RESPONSE
+
+    RESPONSE --> API
+
+    API --> UI
+
+    UI --> USER
