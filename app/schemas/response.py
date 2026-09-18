@@ -10,3 +10,7 @@ class AssistantResponse(BaseModel):
     source_used: bool
 
     tool_used: Optional[str] = None
+
+    verified: bool
+
+    iterations_used: int

@@ -1362,3 +1362,10 @@ See the `total_tokens` column in `eval_report.md`; the harness uses provider usa
 ### Tool vs. Agent Boundary
 
 `rag_search` and `calculator` are bounded tool calls: each accepts one request and returns one result, with no internal state or multi-turn reasoning. They do not make independent decisions, so they are modeled as tools rather than agents; the LangGraph LLM decides when to call them and the verifier decides whether to continue.
+
+## Week 16 Requirement Checklist
+
+1. **Self-check loop:** `verify_answer` returns `sufficient`, `reason`, and `refined_query`; insufficient answers loop through retrieval or calculation until `MAX_ITERATIONS = 3`.
+2. **Clearing tool results:** `prepare_retry` removes previous raw RAG messages and retains a short insufficiency summary before the next LLM call.
+3. **Stopping condition:** after three attempts, the best available answer is returned with `verified: false` and the source-verification note.
+4. **Response contract:** `POST /chat` returns `answer`, `source_used`, `tool_used`, `verified`, and `iterations_used`.

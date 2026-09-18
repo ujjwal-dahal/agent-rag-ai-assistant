@@ -1,6 +1,9 @@
 from fastapi import FastAPI
+from pydantic import BaseModel
 
 from app.api.ollama import router as ollama_router
+from app.graph.ollama_agent import run_agent
+from app.schemas.response import AssistantResponse
 
 
 app = FastAPI(
@@ -13,6 +16,15 @@ app = FastAPI(
 app.include_router(
     ollama_router
 )
+
+
+class ChatRequest(BaseModel):
+    question: str
+
+
+@app.post("/chat", response_model=AssistantResponse)
+def chat(request: ChatRequest):
+    return run_agent(request.question)
 
 
 @app.get("/")
