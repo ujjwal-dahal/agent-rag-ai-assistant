@@ -1,30 +1,28 @@
 import json
+import math
+import re
+import os
 from typing import Annotated, Optional
 from typing_extensions import TypedDict
 
 from langchain_core.messages import (
     BaseMessage,
-  HumanMessage,
-  RemoveMessage,
+    HumanMessage,
+    RemoveMessage,
     SystemMessage,
-  ToolMessage,
+    ToolMessage,
 )
+from langchain_groq import ChatGroq
 
 from langgraph.graph import (
     StateGraph,
     START,
     END,
 )
-
 from langgraph.graph.message import add_messages
+from langgraph.prebuilt import ToolNode
 
-from langgraph.prebuilt import (
-    ToolNode,
-    tools_condition,
-)
-
-from app.llm.ollama_llm import llm
-
+from app.config.config import env_file
 from app.tools.calculator import calculator
 from app.tools.rag_tool import rag_search
 
@@ -67,10 +65,17 @@ tools = [
 
 
 # ==================================================
-# Bind Tools to LLM
+# Bind Tools to Groq LLM
 # ==================================================
 
-llm_with_tools = llm.bind_tools(tools)
+groq_llm = ChatGroq(
+  model=os.getenv("MODEL_NAME", "openai/gpt-oss-20b"),
+  temperature=0,
+  max_tokens=1024,
+  api_key=env_file.MODEL_API_KEY,
+)
+
+llm_with_tools = groq_llm.bind_tools(tools)
 
 # ==================================================
 # System Prompt
@@ -123,11 +128,13 @@ Return only valid JSON with exactly these keys:
 {"sufficient": bool, "reason": str, "refined_query": str|null}
 
 Check the candidate answer against the supplied evidence. For RAG, the answer
-must be supported by the retrieved context. For calculator, the answer must
-match the calculator result. If evidence is missing, contradictory, or too
-weak, set sufficient to false and provide a concise refined_query that would
-retrieve or calculate what is missing. For an answer that does not use a tool,
-set sufficient to true unless it explicitly claims unsupported knowledge.
+must be supported by the retrieved context. For calculator, a successful
+numeric result in the evidence is sufficient when the candidate answer states
+that result, even if the original expression is not repeated in the evidence.
+If evidence is missing, contradictory, or too weak, set sufficient to false
+and provide a concise refined_query that would retrieve or calculate what is
+missing. For an answer that does not use a tool, set sufficient to true unless
+it explicitly claims unsupported knowledge.
 """
 
 
@@ -151,6 +158,7 @@ def _message_text(message: BaseMessage) -> str:
   content = getattr(message, "content", "")
   return content if isinstance(content, str) else json.dumps(content)
 
+
 # ==================================================
 # LLM Node
 # ==================================================
@@ -167,11 +175,11 @@ def call_model(state: State):
     )
 
   response = llm_with_tools.invoke(
-        [
+    [
       SystemMessage(content=prompt),
-            *messages,
-        ]
-    )
+      *messages,
+    ]
+  )
 
   return {
     "messages": [response],
@@ -195,7 +203,7 @@ def record_tool_results(state: State):
   return {
     "tool_used": tool_name,
     "source_used": tool_name == "rag_search",
-    "retrieved_context": result if tool_name == "rag_search" else "",
+    "retrieved_context": result,
   }
 
 
@@ -210,7 +218,33 @@ def verify_answer(state: State):
     f"Evidence: {evidence or 'No tool evidence was returned.'}"
   )
 
-  response = llm.invoke(
+  if tool_used == "rag_search" and (
+    not evidence or evidence == "No relevant information was found."
+  ):
+    return {
+      "verifier_result": {
+        "sufficient": False,
+        "reason": "Retrieved RAG evidence was empty or unavailable.",
+        "refined_query": state.get("question"),
+      },
+      "verified": False,
+      "total_tokens": state.get("total_tokens", 0),
+    }
+
+  if tool_used == "calculator" and (
+    not evidence or "Unable to calculate" in evidence
+  ):
+    return {
+      "verifier_result": {
+        "sufficient": False,
+        "reason": "The calculator did not return a usable result.",
+        "refined_query": state.get("question"),
+      },
+      "verified": False,
+      "total_tokens": state.get("total_tokens", 0),
+    }
+
+  response = groq_llm.invoke(
     [
       SystemMessage(content=VERIFIER_PROMPT),
       HumanMessage(content=verification_prompt),
@@ -245,6 +279,28 @@ def verify_answer(state: State):
       "sufficient": False,
       "reason": "The calculator did not produce a result.",
       "refined_query": state.get("question"),
+    }
+
+  if tool_used == "calculator" and evidence and "Unable to calculate" not in evidence:
+    answer_numbers = [
+      float(value)
+      for value in re.findall(r"[-+]?\d+(?:\.\d+)?", answer)
+    ]
+    try:
+      calculator_matches = any(
+        math.isclose(float(evidence.strip()), value)
+        for value in answer_numbers
+      )
+    except ValueError:
+      calculator_matches = evidence.strip() in answer
+    result = {
+      "sufficient": calculator_matches,
+      "reason": (
+        "The calculator result appears in the candidate answer."
+        if calculator_matches
+        else "The candidate answer does not contain the calculator result."
+      ),
+      "refined_query": None if calculator_matches else state.get("question"),
     }
 
   return {

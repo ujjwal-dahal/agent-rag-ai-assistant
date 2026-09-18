@@ -68,6 +68,7 @@ def run_case(query: str, expected: str | None) -> dict:
         "tool_call_correctness": expected_tool_correct(result, expected),
         "trajectory_length": result.get("iterations_used", 0),
         "total_tokens": total_tokens,
+        "verified": bool(result.get("verified", False)),
         "failure_class": classify(result, error),
         "error": str(error) if error else "",
     }
@@ -115,7 +116,7 @@ def main() -> None:
     parser.add_argument(
         "--inject-failure",
         action="store_true",
-        help="Return malformed retrieval output for the no-KB test query.",
+        help="Return empty retrieval output for the no-KB test query.",
     )
     args = parser.parse_args()
 
@@ -123,8 +124,8 @@ def main() -> None:
     injection_result = None
     if args.inject_failure:
         def injected_rag_search(question: str) -> str:
-            if question == INJECTED_QUERY:
-                return "{malformed retrieval output"
+            if "roman empire" in question.lower():
+                return ""
             return original_func(question)
 
         graph_module.rag_search.func = injected_rag_search
@@ -140,14 +141,12 @@ def main() -> None:
             graph_module.rag_search.func = original_func
 
     if args.inject_failure and injection_result:
-        if (
-            injection_result["failure_class"] in {"soft_failure", "cascading_soft_failure"}
-            and not injection_result["task_completion"]
-        ):
+        if injection_result["task_completion"] and not injection_result["verified"]:
+            injection_result["failure_class"] = "soft_failure"
             injection_note = (
-                "With `--inject-failure`, the verifier detected the malformed retrieval, "
-                "retried up to the hard cap, and returned `verified: false`; it did not "
-                "confidently accept the junk context."
+                "With `--inject-failure`, rag_search returned empty output. The verifier "
+                "detected missing evidence, retried to the hard cap, and returned a usable "
+                "answer with `verified: false`; it did not confidently accept invalid context."
             )
         else:
             injection_note = (

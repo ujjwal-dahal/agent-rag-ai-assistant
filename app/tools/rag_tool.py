@@ -57,6 +57,11 @@ def rag_search(question: str) -> str:
 
     documents = retriever.invoke(question)
 
+    print(
+        f"[rag_search] query={question!r} chunks={len(documents)} "
+        f"raw={[(document.page_content[:500], document.metadata) for document in documents]}"
+    )
+
     if not documents:
 
         return "No relevant information was found."

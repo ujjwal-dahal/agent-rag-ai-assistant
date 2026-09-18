@@ -1,3 +1,5 @@
+import math
+
 from langchain_core.tools import tool
 
 
@@ -15,7 +17,8 @@ def calculator(expression: str) -> str:
         result = eval(
             expression,
             {
-                "__builtins__": {}
+                "__builtins__": {},
+                "sqrt": math.sqrt,
             },
             {}
         )

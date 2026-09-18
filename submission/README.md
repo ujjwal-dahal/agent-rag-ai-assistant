@@ -1341,11 +1341,11 @@ This is a **SINGLE-AGENT LOOP**: one LangGraph graph uses one LLM role that swit
 
 `eval_harness.py` runs nine plain-Python cases covering factual RAG, retries, calculation, missing knowledge, ambiguity, and no-tool responses. It measures task completion, tool-call correctness, trajectory length, and total tokens, and writes the detailed Markdown table to `eval_report.md`.
 
-| Aggregate         | Completion rate | Average trajectory | Total tokens |
-| ----------------- | --------------: | -----------------: | -----------: |
-| Current local run |            0.0% |               0.00 |           81 |
+| Aggregate        | Completion rate | Average trajectory | Total tokens |
+| ---------------- | --------------: | -----------------: | -----------: |
+| Current Groq run |          100.0% |               2.78 |        38202 |
 
-The current local aggregate reflects that Ollama was unavailable when the harness ran; the report records those provider failures rather than treating them as successful answers.
+The current aggregate is from the Groq-only run. Ollama was bypassed for this evaluation, so the report records real Groq-backed completions and usage metadata.
 
 ### Skill vs. Agent
 
