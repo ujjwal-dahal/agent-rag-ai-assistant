@@ -1,0 +1,75 @@
+{
+  "status": "passed",
+  "version": "prompt_v2",
+  "summary": {
+    "all_passed": true,
+    "total_tests": 2,
+    "success_tests": 2,
+    "failed_tests": 0,
+    "by_status": {
+      "SUCCESS": 2
+    }
+  },
+  "details": {
+    "reference_correctness": [
+      {
+        "id": "rag_definition",
+        "verdict": {
+          "category": "correct",
+          "reasoning": "The candidate answer is identical to the approved reference answer. It preserves all material information regarding the definition of RAG, the process of querying an external knowledge base, and the use of retrieved passages by the language model. There are no contradictions or invented conflicting facts."
+        }
+      },
+      {
+        "id": "calculator",
+        "verdict": {
+          "category": "correct",
+          "reasoning": "The candidate answer '1010' is identical to the approved reference answer '1010'. The calculation 125 * 8 + 10 equals 1000 + 10, which is 1010. Therefore, the candidate answer preserves the material information and does not contradict the reference."
+        }
+      },
+      {
+        "id": "missing_knowledge",
+        "verdict": {
+          "category": "correct",
+          "reasoning": "The candidate answer is identical to the approved reference answer. It preserves all material information (the statement of inability to answer due to lack of information) and does not introduce any conflicting facts or contradictions."
+        }
+      },
+      {
+        "id": "no_tool",
+        "verdict": {
+          "category": "correct",
+          "reasoning": "The candidate answer preserves the core material information from the approved reference answer. Both advise being concise and specific, stating exactly what is wanted, and avoiding vague wording. The addition of 'or ambiguous terms' in the candidate answer is a synonymous elaboration that does not contradict the reference. Therefore, it is classified as correct."
+        }
+      }
+    ],
+    "tool_appropriateness": [
+      {
+        "id": "rag_definition",
+        "verdict": {
+          "category": "correct",
+          "reasoning": "The expected tool is 'rag_search' and the actual tool used is also 'rag_search'. Since the selected tool matches the expected tool, the classification is correct."
+        }
+      },
+      {
+        "id": "calculator",
+        "verdict": {
+          "category": "correct",
+          "reasoning": "The expected tool is 'calculator' and the actual tool used is also 'calculator'. Since the selected tool matches the expected tool, the classification is correct."
+        }
+      },
+      {
+        "id": "missing_knowledge",
+        "verdict": {
+          "category": "correct",
+          "reasoning": "The expected tool is 'rag_search' and the actual tool used is also 'rag_search'. Since the selected tool matches the expected tool, the classification is correct."
+        }
+      },
+      {
+        "id": "no_tool",
+        "verdict": {
+          "category": "incorrect",
+          "reasoning": "The expected tool was 'nan' (indicating no tool or a specific non-tool response was expected, likely because the question is a general knowledge query that doesn't require external search or calculation). The actual tool used was 'rag_search'. Since the selected tool ('rag_search') differs from the expected tool ('nan'), the classification is incorrect."
+        }
+      }
+    ]
+  }
+}

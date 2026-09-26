@@ -1,0 +1,75 @@
+{
+  "status": "passed",
+  "version": "prompt_v3",
+  "summary": {
+    "all_passed": true,
+    "total_tests": 2,
+    "success_tests": 2,
+    "failed_tests": 0,
+    "by_status": {
+      "SUCCESS": 2
+    }
+  },
+  "details": {
+    "reference_correctness": [
+      {
+        "id": "rag_definition",
+        "verdict": {
+          "category": "correct",
+          "reasoning": "The candidate answer accurately preserves the core definition and process described in the approved reference answer. It correctly identifies RAG as a blend of information retrieval and LLMs, and accurately describes the workflow of querying an external knowledge base and using the retrieved passages to generate the response. The slight variation in the final clause ('grounded in up-to-date or domain-specific information' vs 'more accurate, up-to-date answer') is semantically consistent and does not introduce any conflicting facts or contradictions."
+        }
+      },
+      {
+        "id": "calculator",
+        "verdict": {
+          "category": "correct",
+          "reasoning": "The candidate answer '1010' is identical to the approved reference answer '1010'. The calculation 125 * 8 + 10 equals 1000 + 10, which is 1010. Therefore, the candidate answer preserves the material information and does not contradict the reference."
+        }
+      },
+      {
+        "id": "missing_knowledge",
+        "verdict": {
+          "category": "UNKNOWN",
+          "reasoning": "The candidate answer is empty. Since there is no text provided in the candidate answer field, it is impossible to determine if it preserves material information or contradicts the reference answer. Therefore, the information provided is not sufficient to make a clear determination."
+        }
+      },
+      {
+        "id": "no_tool",
+        "verdict": {
+          "category": "correct",
+          "reasoning": "The candidate answer preserves all material information from the approved reference answer. It conveys the same advice (be concise, specific, state exactly what is wanted, avoid vague wording) with only a minor stylistic change ('Be' vs 'Keep it'). There are no contradictions or invented conflicting facts."
+        }
+      }
+    ],
+    "tool_appropriateness": [
+      {
+        "id": "rag_definition",
+        "verdict": {
+          "category": "correct",
+          "reasoning": "The expected tool is 'rag_search' and the actual tool used is also 'rag_search'. Since the selected tool matches the expected tool, the classification is correct."
+        }
+      },
+      {
+        "id": "calculator",
+        "verdict": {
+          "category": "correct",
+          "reasoning": "The expected tool is 'calculator' and the actual tool used is also 'calculator'. Since the selected tool matches the expected tool, the classification is correct."
+        }
+      },
+      {
+        "id": "missing_knowledge",
+        "verdict": {
+          "category": "correct",
+          "reasoning": "The expected tool is 'rag_search' and the actual tool used is also 'rag_search'. Since the selected tool matches the expected tool, the classification is correct."
+        }
+      },
+      {
+        "id": "no_tool",
+        "verdict": {
+          "category": "incorrect",
+          "reasoning": "The expected tool was 'nan' (indicating no tool or a specific non-tool response was expected, likely because the question is a general knowledge query that doesn't require external search or calculation). The actual tool used was 'rag_search'. Since the actual tool differs from the expected tool, the classification is incorrect."
+        }
+      }
+    ]
+  }
+}

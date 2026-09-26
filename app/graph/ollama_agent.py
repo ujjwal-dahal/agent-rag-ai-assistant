@@ -23,8 +23,9 @@ from langgraph.graph.message import add_messages
 from langgraph.prebuilt import ToolNode
 
 from app.config.config import env_file
+from app.config.prompt_versions import get_prompt_config
 from app.tools.calculator import calculator
-from app.tools.rag_tool import rag_search
+from app.tools.rag_tool import configure_retriever, rag_search
 
 
 MAX_ITERATIONS = 3
@@ -52,6 +53,9 @@ class State(TypedDict, total=False):
   verified: bool
   retry_query: Optional[str]
   total_tokens: int
+  prompt_version: str
+  trace: list[dict]
+  termination_reason: str
 
 
 # ==================================================
@@ -166,7 +170,8 @@ def _message_text(message: BaseMessage) -> str:
 def call_model(state: State):
 
   messages = state["messages"]
-  prompt = SYSTEM_PROMPT
+  config = get_prompt_config(state.get("prompt_version", "prompt_v1"))
+  prompt = config.prompt
   retry_query = state.get("retry_query")
   if retry_query:
     prompt += (
@@ -181,11 +186,24 @@ def call_model(state: State):
     ]
   )
 
+  tool_calls = [
+    {"id": call.get("id"), "name": call["name"], "args": call.get("args", {})}
+    for call in response.tool_calls
+  ]
+  trace = [*state.get("trace", []), {
+    "step": len(state.get("trace", [])) + 1,
+    "kind": "model",
+    "reasoning": (_message_text(response) or
+             "Provider returned no textual reasoning; tool selection was recorded from the tool call."),
+    "tool_calls": tool_calls,
+    "tool_call_ids": [call.get("id") for call in response.tool_calls],
+  }]
   return {
     "messages": [response],
     "answer": _message_text(response) if not response.tool_calls else state.get("answer", ""),
     "iterations_used": state.get("iterations_used", 0) + (0 if response.tool_calls else 1),
     "total_tokens": state.get("total_tokens", 0) + _token_count(response),
+    "trace": trace,
     }
 
 
@@ -200,10 +218,22 @@ def record_tool_results(state: State):
   latest = tool_messages[-1]
   tool_name = latest.name or "unknown"
   result = _message_text(latest)
+  trace = [*state.get("trace", []), {
+    "step": len(state.get("trace", [])) + 1,
+    "kind": "tool",
+    "tool": tool_name,
+    "args": next((call["args"] for step in reversed(state.get("trace", []))
+            if step.get("kind") == "model"
+            for call in step.get("tool_calls", [])
+            if call.get("id") == latest.tool_call_id), {}),
+    "result": result,
+    "reasoning": "Model requested this tool; raw tool output was recorded.",
+  }]
   return {
     "tool_used": tool_name,
     "source_used": tool_name == "rag_search",
     "retrieved_context": result,
+    "trace": trace,
   }
 
 
@@ -332,7 +362,12 @@ def prepare_retry(state: State):
 
 
 def verification_route(state: State):
-  if state.get("verified") or state.get("iterations_used", 0) >= MAX_ITERATIONS:
+  max_iterations = get_prompt_config(state.get("prompt_version", "prompt_v1")).max_iterations
+  if state.get("verified"):
+    state["termination_reason"] = "success"
+    return END
+  if state.get("iterations_used", 0) >= max_iterations:
+    state["termination_reason"] = "max_iterations"
     return END
   return "retry"
 
@@ -411,12 +446,20 @@ graph = builder.compile()
 
 
 def run_agent(question: str) -> dict:
+  return run_agent_versioned(question, "prompt_v1")
+
+
+def run_agent_versioned(question: str, prompt_version: str = "prompt_v1") -> dict:
+  config = get_prompt_config(prompt_version)
+  configure_retriever(config.top_k)
   result = graph.invoke(
     {
       "messages": [HumanMessage(content=question)],
       "question": question,
       "iterations_used": 0,
       "total_tokens": 0,
+      "prompt_version": prompt_version,
+      "trace": [],
     }
   )
   verified = bool(result.get("verified", False))
@@ -427,6 +470,9 @@ def run_agent(question: str) -> dict:
       if answer
       else "Answer could not be fully verified against sources."
     )
+  termination_reason = "success" if verified else (
+    "max_iterations" if result.get("iterations_used", 0) >= config.max_iterations else "error"
+  )
   return {
     "answer": answer,
     "source_used": bool(result.get("source_used", False)),
@@ -434,4 +480,7 @@ def run_agent(question: str) -> dict:
     "verified": verified,
     "iterations_used": result.get("iterations_used", 0),
     "total_tokens": result.get("total_tokens", 0),
+    "trace": result.get("trace", []),
+    "termination_reason": termination_reason,
+    "prompt_version": prompt_version,
   }

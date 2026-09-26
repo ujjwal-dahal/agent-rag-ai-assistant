@@ -1,0 +1,166 @@
+[
+  {
+    "id": "rag_definition",
+    "query": "What is Retrieval-Augmented Generation?",
+    "expected_tool": "rag_search",
+    "answer": "Retrieval\u2011Augmented Generation (RAG) is a technique that blends information retrieval with large language models. A RAG system first queries an external knowledge base or document collection to fetch relevant passages, then feeds those passages into the language model so it can generate responses that are grounded in up\u2011to\u2011date or domain\u2011specific information.",
+    "tool_used": "rag_search",
+    "verified": true,
+    "iterations": 1,
+    "tokens": 1412,
+    "termination_reason": "success",
+    "trace": [
+      {
+        "step": 1,
+        "kind": "model",
+        "reasoning": "Provider returned no textual reasoning; tool selection was recorded from the tool call.",
+        "tool_calls": [
+          {
+            "id": "fc_b59d1d3b-9a34-4d6a-87b0-0f4b4c4aea9d",
+            "name": "rag_search",
+            "args": {
+              "question": "Retrieval-Augmented Generation"
+            }
+          }
+        ],
+        "tool_call_ids": [
+          "fc_b59d1d3b-9a34-4d6a-87b0-0f4b4c4aea9d"
+        ]
+      },
+      {
+        "step": 2,
+        "kind": "tool",
+        "tool": "rag_search",
+        "args": {
+          "question": "Retrieval-Augmented Generation"
+        },
+        "result": "Retrieval-Augmented Generation (RAG) combines information\nretrieval with Large Language Models. A RAG system retrieves\nrelevant information from external documents and provides\nthat information to the language model before generating\nan answer.\n\nArtificial Intelligence (AI) is a field of computer science\nthat focuses on creating systems capable of performing tasks\nthat normally require human intelligence.",
+        "reasoning": "Model requested this tool; raw tool output was recorded."
+      },
+      {
+        "step": 3,
+        "kind": "model",
+        "reasoning": "Retrieval\u2011Augmented Generation (RAG) is a technique that blends information retrieval with large language models. A RAG system first queries an external knowledge base or document collection to fetch relevant passages, then feeds those passages into the language model so it can generate responses that are grounded in up\u2011to\u2011date or domain\u2011specific information.",
+        "tool_calls": [],
+        "tool_call_ids": []
+      }
+    ],
+    "error": ""
+  },
+  {
+    "id": "calculator",
+    "query": "Calculate 125 * 8 + 10.",
+    "expected_tool": "calculator",
+    "answer": "1010",
+    "tool_used": "calculator",
+    "verified": true,
+    "iterations": 1,
+    "tokens": 1040,
+    "termination_reason": "success",
+    "trace": [
+      {
+        "step": 1,
+        "kind": "model",
+        "reasoning": "Provider returned no textual reasoning; tool selection was recorded from the tool call.",
+        "tool_calls": [
+          {
+            "id": "fc_f1f9ff4d-f13c-46e8-98dc-06cc821e3d72",
+            "name": "calculator",
+            "args": {
+              "expression": "125 * 8 + 10"
+            }
+          }
+        ],
+        "tool_call_ids": [
+          "fc_f1f9ff4d-f13c-46e8-98dc-06cc821e3d72"
+        ]
+      },
+      {
+        "step": 2,
+        "kind": "tool",
+        "tool": "calculator",
+        "args": {
+          "expression": "125 * 8 + 10"
+        },
+        "result": "1010",
+        "reasoning": "Model requested this tool; raw tool output was recorded."
+      },
+      {
+        "step": 3,
+        "kind": "model",
+        "reasoning": "1010",
+        "tool_calls": [],
+        "tool_call_ids": []
+      }
+    ],
+    "error": ""
+  },
+  {
+    "id": "missing_knowledge",
+    "query": "What is the history of the Roman Empire?",
+    "expected_tool": "rag_search",
+    "answer": "",
+    "tool_used": null,
+    "verified": false,
+    "iterations": 0,
+    "tokens": 0,
+    "termination_reason": "error",
+    "trace": [],
+    "error": "BadRequestError('Error code: 400 - {\\'error\\': {\\'message\\': \"Parsing failed. The model generated output that could not be parsed. Please adjust your prompt. See \\'failed_generation\\' for more details.\", \\'type\\': \\'invalid_request_error\\', \\'code\\': \\'output_parse_failed\\', \\'failed_generation\\': \\'\\'}}')"
+  },
+  {
+    "id": "no_tool",
+    "query": "Give me one short tip for writing clear prompts.",
+    "expected_tool": null,
+    "answer": "I\u2019m sorry, but I couldn\u2019t find any relevant information in the available sources about a short tip for writing clear prompts.",
+    "tool_used": "rag_search",
+    "verified": false,
+    "iterations": 2,
+    "tokens": 2025,
+    "termination_reason": "max_iterations",
+    "trace": [
+      {
+        "step": 1,
+        "kind": "model",
+        "reasoning": "Provider returned no textual reasoning; tool selection was recorded from the tool call.",
+        "tool_calls": [
+          {
+            "id": "fc_bdb63f8b-e538-4968-9bdc-9feac9a2f934",
+            "name": "rag_search",
+            "args": {
+              "question": "Give me one short tip for writing clear prompts."
+            }
+          }
+        ],
+        "tool_call_ids": [
+          "fc_bdb63f8b-e538-4968-9bdc-9feac9a2f934"
+        ]
+      },
+      {
+        "step": 2,
+        "kind": "tool",
+        "tool": "rag_search",
+        "args": {
+          "question": "Give me one short tip for writing clear prompts."
+        },
+        "result": "Retrieval-Augmented Generation (RAG) combines information\nretrieval with Large Language Models. A RAG system retrieves\nrelevant information from external documents and provides\nthat information to the language model before generating\nan answer.\n\nArtificial Intelligence (AI) is a field of computer science\nthat focuses on creating systems capable of performing tasks\nthat normally require human intelligence.",
+        "reasoning": "Model requested this tool; raw tool output was recorded."
+      },
+      {
+        "step": 3,
+        "kind": "model",
+        "reasoning": "I\u2019m sorry, but the search did not return any relevant information about a short tip for writing clear prompts.",
+        "tool_calls": [],
+        "tool_call_ids": []
+      },
+      {
+        "step": 4,
+        "kind": "model",
+        "reasoning": "I\u2019m sorry, but I couldn\u2019t find any relevant information in the available sources about a short tip for writing clear prompts.",
+        "tool_calls": [],
+        "tool_call_ids": []
+      }
+    ],
+    "error": ""
+  }
+]

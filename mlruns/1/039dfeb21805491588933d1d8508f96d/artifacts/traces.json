@@ -1,0 +1,201 @@
+[
+  {
+    "id": "rag_definition",
+    "query": "What is Retrieval-Augmented Generation?",
+    "expected_tool": "rag_search",
+    "answer": "Retrieval\u2011Augmented Generation (RAG) is a technique that blends information retrieval with large language models. A RAG system first queries an external knowledge base or document collection to fetch relevant passages, then feeds those passages into the language model so it can generate responses grounded in up\u2011to\u2011date or domain\u2011specific information.",
+    "tool_used": "rag_search",
+    "verified": true,
+    "iterations": 1,
+    "tokens": 1411,
+    "termination_reason": "success",
+    "trace": [
+      {
+        "step": 1,
+        "kind": "model",
+        "reasoning": "Provider returned no textual reasoning; tool selection was recorded from the tool call.",
+        "tool_calls": [
+          {
+            "id": "fc_63cdf24d-2606-4be9-98d4-4d826bee75b1",
+            "name": "rag_search",
+            "args": {
+              "question": "Retrieval-Augmented Generation"
+            }
+          }
+        ],
+        "tool_call_ids": [
+          "fc_63cdf24d-2606-4be9-98d4-4d826bee75b1"
+        ]
+      },
+      {
+        "step": 2,
+        "kind": "tool",
+        "tool": "rag_search",
+        "args": {
+          "question": "Retrieval-Augmented Generation"
+        },
+        "result": "Retrieval-Augmented Generation (RAG) combines information\nretrieval with Large Language Models. A RAG system retrieves\nrelevant information from external documents and provides\nthat information to the language model before generating\nan answer.\n\nArtificial Intelligence (AI) is a field of computer science\nthat focuses on creating systems capable of performing tasks\nthat normally require human intelligence.",
+        "reasoning": "Model requested this tool; raw tool output was recorded."
+      },
+      {
+        "step": 3,
+        "kind": "model",
+        "reasoning": "Retrieval\u2011Augmented Generation (RAG) is a technique that blends information retrieval with large language models. A RAG system first queries an external knowledge base or document collection to fetch relevant passages, then feeds those passages into the language model so it can generate responses grounded in up\u2011to\u2011date or domain\u2011specific information.",
+        "tool_calls": [],
+        "tool_call_ids": []
+      }
+    ],
+    "error": ""
+  },
+  {
+    "id": "calculator",
+    "query": "Calculate 125 * 8 + 10.",
+    "expected_tool": "calculator",
+    "answer": "1010",
+    "tool_used": "calculator",
+    "verified": true,
+    "iterations": 1,
+    "tokens": 1040,
+    "termination_reason": "success",
+    "trace": [
+      {
+        "step": 1,
+        "kind": "model",
+        "reasoning": "Provider returned no textual reasoning; tool selection was recorded from the tool call.",
+        "tool_calls": [
+          {
+            "id": "fc_95c0b407-1dd5-4de3-a59e-cd731ce60867",
+            "name": "calculator",
+            "args": {
+              "expression": "125 * 8 + 10"
+            }
+          }
+        ],
+        "tool_call_ids": [
+          "fc_95c0b407-1dd5-4de3-a59e-cd731ce60867"
+        ]
+      },
+      {
+        "step": 2,
+        "kind": "tool",
+        "tool": "calculator",
+        "args": {
+          "expression": "125 * 8 + 10"
+        },
+        "result": "1010",
+        "reasoning": "Model requested this tool; raw tool output was recorded."
+      },
+      {
+        "step": 3,
+        "kind": "model",
+        "reasoning": "1010",
+        "tool_calls": [],
+        "tool_call_ids": []
+      }
+    ],
+    "error": ""
+  },
+  {
+    "id": "missing_knowledge",
+    "query": "What is the history of the Roman Empire?",
+    "expected_tool": "rag_search",
+    "answer": "",
+    "tool_used": "rag_search",
+    "verified": true,
+    "iterations": 1,
+    "tokens": 2293,
+    "termination_reason": "success",
+    "trace": [
+      {
+        "step": 1,
+        "kind": "model",
+        "reasoning": "Provider returned no textual reasoning; tool selection was recorded from the tool call.",
+        "tool_calls": [
+          {
+            "id": "fc_91a4bde9-952e-4f42-ba48-0f4d40b4be52",
+            "name": "rag_search",
+            "args": {
+              "question": "What is the history of the Roman Empire?"
+            }
+          }
+        ],
+        "tool_call_ids": [
+          "fc_91a4bde9-952e-4f42-ba48-0f4d40b4be52"
+        ]
+      },
+      {
+        "step": 2,
+        "kind": "tool",
+        "tool": "rag_search",
+        "args": {
+          "question": "What is the history of the Roman Empire?"
+        },
+        "result": "Retrieval-Augmented Generation (RAG) combines information\nretrieval with Large Language Models. A RAG system retrieves\nrelevant information from external documents and provides\nthat information to the language model before generating\nan answer.\n\nArtificial Intelligence (AI) is a field of computer science\nthat focuses on creating systems capable of performing tasks\nthat normally require human intelligence.",
+        "reasoning": "Model requested this tool; raw tool output was recorded."
+      },
+      {
+        "step": 3,
+        "kind": "model",
+        "reasoning": "Provider returned no textual reasoning; tool selection was recorded from the tool call.",
+        "tool_calls": [],
+        "tool_call_ids": []
+      }
+    ],
+    "error": ""
+  },
+  {
+    "id": "no_tool",
+    "query": "Give me one short tip for writing clear prompts.",
+    "expected_tool": null,
+    "answer": "I\u2019m sorry, but the search result didn\u2019t contain a specific tip for writing clear prompts. The retrieved text was a general description of Retrieval\u2011Augmented Generation and AI, which does not address your request. Based on general best practices, a short tip is: **\u201cUse concise, specific language and include any necessary context or constraints.\u201d**",
+    "tool_used": "rag_search",
+    "verified": false,
+    "iterations": 2,
+    "tokens": 2353,
+    "termination_reason": "max_iterations",
+    "trace": [
+      {
+        "step": 1,
+        "kind": "model",
+        "reasoning": "Provider returned no textual reasoning; tool selection was recorded from the tool call.",
+        "tool_calls": [
+          {
+            "id": "fc_4a37ae9c-3b3f-4dbd-990a-17c8356b1cf5",
+            "name": "rag_search",
+            "args": {
+              "question": "Give me one short tip for writing clear prompts."
+            }
+          }
+        ],
+        "tool_call_ids": [
+          "fc_4a37ae9c-3b3f-4dbd-990a-17c8356b1cf5"
+        ]
+      },
+      {
+        "step": 2,
+        "kind": "tool",
+        "tool": "rag_search",
+        "args": {
+          "question": "Give me one short tip for writing clear prompts."
+        },
+        "result": "Retrieval-Augmented Generation (RAG) combines information\nretrieval with Large Language Models. A RAG system retrieves\nrelevant information from external documents and provides\nthat information to the language model before generating\nan answer.\n\nArtificial Intelligence (AI) is a field of computer science\nthat focuses on creating systems capable of performing tasks\nthat normally require human intelligence.",
+        "reasoning": "Model requested this tool; raw tool output was recorded."
+      },
+      {
+        "step": 3,
+        "kind": "model",
+        "reasoning": "I\u2019m sorry, but the search result didn\u2019t contain a specific tip for writing clear prompts. The retrieved text was a general description of Retrieval\u2011Augmented Generation and AI, which doesn\u2019t address your request. If you\u2019d like, I can offer a tip based on general best practices: \u201cUse concise, specific language and include any necessary context or constraints.\u201d",
+        "tool_calls": [],
+        "tool_call_ids": []
+      },
+      {
+        "step": 4,
+        "kind": "model",
+        "reasoning": "I\u2019m sorry, but the search result didn\u2019t contain a specific tip for writing clear prompts. The retrieved text was a general description of Retrieval\u2011Augmented Generation and AI, which does not address your request. Based on general best practices, a short tip is: **\u201cUse concise, specific language and include any necessary context or constraints.\u201d**",
+        "tool_calls": [],
+        "tool_call_ids": []
+      }
+    ],
+    "error": ""
+  }
+]

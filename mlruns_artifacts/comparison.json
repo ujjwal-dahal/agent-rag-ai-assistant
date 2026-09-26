@@ -1,0 +1,23 @@
+[
+  {
+    "version": "prompt_v1",
+    "task_success_rate": 1.0,
+    "avg_iterations": 2,
+    "avg_tokens": 2579.5,
+    "pct_tests_passed": 0.75
+  },
+  {
+    "version": "prompt_v2",
+    "task_success_rate": 1.0,
+    "avg_iterations": 1.5,
+    "avg_tokens": 1802,
+    "pct_tests_passed": 0.875
+  },
+  {
+    "version": "prompt_v3",
+    "task_success_rate": 0.75,
+    "avg_iterations": 1,
+    "avg_tokens": 1119.25,
+    "pct_tests_passed": 0.5
+  }
+]

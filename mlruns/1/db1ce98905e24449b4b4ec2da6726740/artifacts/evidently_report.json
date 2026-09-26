@@ -1,0 +1,75 @@
+{
+  "status": "passed",
+  "version": "prompt_v1",
+  "summary": {
+    "all_passed": true,
+    "total_tests": 2,
+    "success_tests": 2,
+    "failed_tests": 0,
+    "by_status": {
+      "SUCCESS": 2
+    }
+  },
+  "details": {
+    "reference_correctness": [
+      {
+        "id": "rag_definition",
+        "verdict": {
+          "category": "correct",
+          "reasoning": "The candidate answer accurately reflects the core information provided in the approved reference answer. It correctly defines RAG as a technique blending information retrieval with large language models, describes the process of querying an external knowledge base to fetch relevant passages, and explains that these passages are used to generate accurate and up-to-date answers. The addition of 'fact-grounded' is a consistent elaboration that does not contradict the reference. No conflicting facts are invented."
+        }
+      },
+      {
+        "id": "calculator",
+        "verdict": {
+          "category": "correct",
+          "reasoning": "The candidate answer provides the value 1010, which matches the approved reference answer exactly. It does not invent any conflicting facts or omit material information."
+        }
+      },
+      {
+        "id": "missing_knowledge",
+        "verdict": {
+          "category": "correct",
+          "reasoning": "The candidate answer conveys the same core message as the approved reference answer: that there is insufficient information to answer the question. While the candidate adds a specific reference to a 'knowledge base' which is not explicitly in the reference, this does not contradict the reference's statement of lacking information. It preserves the material information (inability to answer due to lack of info) and does not invent conflicting facts about the history of the Roman Empire."
+        }
+      },
+      {
+        "id": "no_tool",
+        "verdict": {
+          "category": "correct",
+          "reasoning": "The candidate answer preserves the core material information from the approved reference answer, which is to use concise, specific language and state exactly what is wanted. While the candidate adds the constraint 'in a single, clear sentence' and omits the explicit instruction to 'avoid vague or ambiguous terms,' these changes do not contradict the reference. The added constraint is a specific implementation of 'concise' and 'clear' language, and the omission of the negative instruction does not create a factual conflict. Therefore, the candidate answer is consistent with the reference."
+        }
+      }
+    ],
+    "tool_appropriateness": [
+      {
+        "id": "rag_definition",
+        "verdict": {
+          "category": "correct",
+          "reasoning": "The expected tool is 'rag_search' and the actual tool used is also 'rag_search'. Since the selected tool matches the expected tool, the classification is correct."
+        }
+      },
+      {
+        "id": "calculator",
+        "verdict": {
+          "category": "correct",
+          "reasoning": "The expected tool is 'calculator' and the actual tool used is also 'calculator'. Since the selected tool matches the expected tool, the classification is correct."
+        }
+      },
+      {
+        "id": "missing_knowledge",
+        "verdict": {
+          "category": "correct",
+          "reasoning": "The expected tool is 'rag_search' and the actual tool used is also 'rag_search'. Since the selected tool matches the expected tool, the classification is correct."
+        }
+      },
+      {
+        "id": "no_tool",
+        "verdict": {
+          "category": "incorrect",
+          "reasoning": "The expected tool was 'nan' (indicating no tool or a specific non-tool response was expected, likely because the question is a general knowledge query that doesn't require external search or calculation). The actual tool used was 'rag_search'. Since the actual tool differs from the expected tool, the classification is incorrect."
+        }
+      }
+    ]
+  }
+}

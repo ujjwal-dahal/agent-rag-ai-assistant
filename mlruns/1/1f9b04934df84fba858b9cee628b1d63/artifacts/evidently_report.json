@@ -1,0 +1,5 @@
+{
+  "status": "not_run",
+  "reason": "OPENAI_API_KEY is required for Evidently LLM-as-judge",
+  "version": "prompt_v1"
+}

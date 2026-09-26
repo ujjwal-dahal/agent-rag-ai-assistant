@@ -1,0 +1,208 @@
+[
+  {
+    "id": "rag_definition",
+    "query": "What is Retrieval-Augmented Generation?",
+    "expected_tool": "rag_search",
+    "answer": "Retrieval\u2011Augmented Generation (RAG) is a technique that blends information retrieval with large language models. A RAG system first queries an external knowledge base or document collection to fetch relevant passages, then feeds those passages into a language model, which uses them to generate a more accurate, up\u2011to\u2011date answer.",
+    "tool_used": "rag_search",
+    "verified": true,
+    "iterations": 1,
+    "tokens": 1385,
+    "termination_reason": "error",
+    "trace": [
+      {
+        "step": 1,
+        "kind": "model",
+        "reasoning": "",
+        "tool_calls": [
+          {
+            "id": "fc_efd88635-5d77-4b4a-82e9-f13cc0157cb6",
+            "name": "rag_search",
+            "args": {
+              "question": "Retrieval-Augmented Generation"
+            }
+          }
+        ],
+        "tool_call_ids": [
+          "fc_efd88635-5d77-4b4a-82e9-f13cc0157cb6"
+        ]
+      },
+      {
+        "step": 2,
+        "kind": "tool",
+        "tool": "rag_search",
+        "args": {
+          "question": "Retrieval-Augmented Generation"
+        },
+        "result": "Retrieval-Augmented Generation (RAG) combines information\nretrieval with Large Language Models. A RAG system retrieves\nrelevant information from external documents and provides\nthat information to the language model before generating\nan answer.\n\nArtificial Intelligence (AI) is a field of computer science\nthat focuses on creating systems capable of performing tasks\nthat normally require human intelligence.",
+        "reasoning": "Model requested this tool; raw tool output was recorded."
+      },
+      {
+        "step": 3,
+        "kind": "model",
+        "reasoning": "Retrieval\u2011Augmented Generation (RAG) is a technique that blends information retrieval with large language models. A RAG system first queries an external knowledge base or document collection to fetch relevant passages, then feeds those passages into a language model, which uses them to generate a more accurate, up\u2011to\u2011date answer.",
+        "tool_calls": [],
+        "tool_call_ids": []
+      }
+    ],
+    "error": ""
+  },
+  {
+    "id": "calculator",
+    "query": "Calculate 125 * 8 + 10.",
+    "expected_tool": "calculator",
+    "answer": "1010",
+    "tool_used": "calculator",
+    "verified": true,
+    "iterations": 1,
+    "tokens": 1036,
+    "termination_reason": "error",
+    "trace": [
+      {
+        "step": 1,
+        "kind": "model",
+        "reasoning": "",
+        "tool_calls": [
+          {
+            "id": "fc_8504bb66-e0cb-48cd-a75e-19e66ca432e0",
+            "name": "calculator",
+            "args": {
+              "expression": "125 * 8 + 10"
+            }
+          }
+        ],
+        "tool_call_ids": [
+          "fc_8504bb66-e0cb-48cd-a75e-19e66ca432e0"
+        ]
+      },
+      {
+        "step": 2,
+        "kind": "tool",
+        "tool": "calculator",
+        "args": {
+          "expression": "125 * 8 + 10"
+        },
+        "result": "1010",
+        "reasoning": "Model requested this tool; raw tool output was recorded."
+      },
+      {
+        "step": 3,
+        "kind": "model",
+        "reasoning": "1010",
+        "tool_calls": [],
+        "tool_call_ids": []
+      }
+    ],
+    "error": ""
+  },
+  {
+    "id": "missing_knowledge",
+    "query": "What is the history of the Roman Empire?",
+    "expected_tool": "rag_search",
+    "answer": "I\u2019m sorry, but I don\u2019t have enough information to answer that.",
+    "tool_used": "rag_search",
+    "verified": false,
+    "iterations": 2,
+    "tokens": 2122,
+    "termination_reason": "error",
+    "trace": [
+      {
+        "step": 1,
+        "kind": "model",
+        "reasoning": "",
+        "tool_calls": [
+          {
+            "id": "fc_622f8bc4-3db3-457d-aefa-e0e9c6d7937d",
+            "name": "rag_search",
+            "args": {
+              "question": "What is the history of the Roman Empire?"
+            }
+          }
+        ],
+        "tool_call_ids": [
+          "fc_622f8bc4-3db3-457d-aefa-e0e9c6d7937d"
+        ]
+      },
+      {
+        "step": 2,
+        "kind": "tool",
+        "tool": "rag_search",
+        "args": {
+          "question": "What is the history of the Roman Empire?"
+        },
+        "result": "Retrieval-Augmented Generation (RAG) combines information\nretrieval with Large Language Models. A RAG system retrieves\nrelevant information from external documents and provides\nthat information to the language model before generating\nan answer.\n\nArtificial Intelligence (AI) is a field of computer science\nthat focuses on creating systems capable of performing tasks\nthat normally require human intelligence.",
+        "reasoning": "Model requested this tool; raw tool output was recorded."
+      },
+      {
+        "step": 3,
+        "kind": "model",
+        "reasoning": "I\u2019m sorry, but I don\u2019t have enough information to answer that.",
+        "tool_calls": [],
+        "tool_call_ids": []
+      },
+      {
+        "step": 4,
+        "kind": "model",
+        "reasoning": "I\u2019m sorry, but I don\u2019t have enough information to answer that.",
+        "tool_calls": [],
+        "tool_call_ids": []
+      }
+    ],
+    "error": ""
+  },
+  {
+    "id": "no_tool",
+    "query": "Give me one short tip for writing clear prompts.",
+    "expected_tool": null,
+    "answer": "Be concise and specific\u2014state exactly what you want and avoid vague wording.",
+    "tool_used": "rag_search",
+    "verified": false,
+    "iterations": 2,
+    "tokens": 2371,
+    "termination_reason": "error",
+    "trace": [
+      {
+        "step": 1,
+        "kind": "model",
+        "reasoning": "Use concise, specific language\u2014state exactly what you want and avoid vague or ambiguous terms.",
+        "tool_calls": [],
+        "tool_call_ids": []
+      },
+      {
+        "step": 2,
+        "kind": "model",
+        "reasoning": "",
+        "tool_calls": [
+          {
+            "id": "fc_b386bb93-4420-4706-8464-833ffbb76b11",
+            "name": "rag_search",
+            "args": {
+              "question": "best practices for formulating concise and specific prompts"
+            }
+          }
+        ],
+        "tool_call_ids": [
+          "fc_b386bb93-4420-4706-8464-833ffbb76b11"
+        ]
+      },
+      {
+        "step": 3,
+        "kind": "tool",
+        "tool": "rag_search",
+        "args": {
+          "question": "best practices for formulating concise and specific prompts"
+        },
+        "result": "Retrieval-Augmented Generation (RAG) combines information\nretrieval with Large Language Models. A RAG system retrieves\nrelevant information from external documents and provides\nthat information to the language model before generating\nan answer.\n\nArtificial Intelligence (AI) is a field of computer science\nthat focuses on creating systems capable of performing tasks\nthat normally require human intelligence.",
+        "reasoning": "Model requested this tool; raw tool output was recorded."
+      },
+      {
+        "step": 4,
+        "kind": "model",
+        "reasoning": "Be concise and specific\u2014state exactly what you want and avoid vague wording.",
+        "tool_calls": [],
+        "tool_call_ids": []
+      }
+    ],
+    "error": ""
+  }
+]

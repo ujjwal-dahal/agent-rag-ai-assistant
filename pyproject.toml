@@ -1,7 +1,7 @@
 [project]
 name = "ai-assistant"
 version = "0.1.0"
-description = "Add your description here"
+description = "Track B agentic AI assistant with MLflow and Evidently evaluation"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
@@ -15,9 +15,15 @@ dependencies = [
     "langchain-ollama>=1.1.0",
     "langchain-text-splitters>=1.1.2",
     "langgraph>=1.2.0",
+    "mlflow>=3.5.0",
     "pydantic>=2.13.4",
     "python-dotenv>=1.2.2",
     "sentence-transformers>=6.0.0",
     "streamlit>=1.62.0",
+    "evidently[llm]>=0.7.20",
+    "groq>=0.37.1",
     "uvicorn>=0.46.0",
 ]
+
+[project.scripts]
+run-mlops-evaluation = "mlops.evaluate:main"

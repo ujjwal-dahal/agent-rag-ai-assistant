@@ -34,11 +34,12 @@ vector_store = Chroma(
 #     }
 # )
 
-retriever = vector_store.as_retriever(
-    search_kwargs={
-        "k": 3
-    }
-)
+retriever = vector_store.as_retriever(search_kwargs={"k": 3})
+
+
+def configure_retriever(top_k: int):
+    global retriever
+    retriever = vector_store.as_retriever(search_kwargs={"k": top_k})
 
 
 # --------------------------------------------------

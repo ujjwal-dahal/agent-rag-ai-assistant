@@ -1,0 +1,249 @@
+[
+  {
+    "id": "rag_definition",
+    "query": "What is Retrieval-Augmented Generation?",
+    "expected_tool": "rag_search",
+    "answer": "Retrieval\u2011Augmented Generation (RAG) is a technique that blends information retrieval with large language models. The system first queries an external knowledge base or document collection to fetch relevant passages, then feeds those retrieved snippets into the language model. The model uses this context to generate more accurate, up\u2011to\u2011date, and fact\u2011grounded responses.",
+    "tool_used": "rag_search",
+    "verified": true,
+    "iterations": 1,
+    "tokens": 1477,
+    "termination_reason": "success",
+    "trace": [
+      {
+        "step": 1,
+        "kind": "model",
+        "reasoning": "Provider returned no textual reasoning; tool selection was recorded from the tool call.",
+        "tool_calls": [
+          {
+            "id": "fc_e48880ff-9aa9-40b3-808a-56d9eb3f7ab2",
+            "name": "rag_search",
+            "args": {
+              "question": "Retrieval-Augmented Generation"
+            }
+          }
+        ],
+        "tool_call_ids": [
+          "fc_e48880ff-9aa9-40b3-808a-56d9eb3f7ab2"
+        ]
+      },
+      {
+        "step": 2,
+        "kind": "tool",
+        "tool": "rag_search",
+        "args": {
+          "question": "Retrieval-Augmented Generation"
+        },
+        "result": "Retrieval-Augmented Generation (RAG) combines information\nretrieval with Large Language Models. A RAG system retrieves\nrelevant information from external documents and provides\nthat information to the language model before generating\nan answer.\n\nArtificial Intelligence (AI) is a field of computer science\nthat focuses on creating systems capable of performing tasks\nthat normally require human intelligence.\n\nMachine Learning (ML) is a subset of Artificial Intelligence.\nIt allows computers to learn patterns from data and make\npredictions or decisions without being explicitly programmed\nfor every task.",
+        "reasoning": "Model requested this tool; raw tool output was recorded."
+      },
+      {
+        "step": 3,
+        "kind": "model",
+        "reasoning": "Retrieval\u2011Augmented Generation (RAG) is a technique that blends information retrieval with large language models. The system first queries an external knowledge base or document collection to fetch relevant passages, then feeds those retrieved snippets into the language model. The model uses this context to generate more accurate, up\u2011to\u2011date, and fact\u2011grounded responses.",
+        "tool_calls": [],
+        "tool_call_ids": []
+      }
+    ],
+    "error": ""
+  },
+  {
+    "id": "calculator",
+    "query": "Calculate 125 * 8 + 10.",
+    "expected_tool": "calculator",
+    "answer": "The result is **1010**.",
+    "tool_used": "calculator",
+    "verified": true,
+    "iterations": 1,
+    "tokens": 1015,
+    "termination_reason": "success",
+    "trace": [
+      {
+        "step": 1,
+        "kind": "model",
+        "reasoning": "Provider returned no textual reasoning; tool selection was recorded from the tool call.",
+        "tool_calls": [
+          {
+            "id": "fc_0fbaa835-e659-49aa-aa74-554bd2be8717",
+            "name": "calculator",
+            "args": {
+              "expression": "125 * 8 + 10"
+            }
+          }
+        ],
+        "tool_call_ids": [
+          "fc_0fbaa835-e659-49aa-aa74-554bd2be8717"
+        ]
+      },
+      {
+        "step": 2,
+        "kind": "tool",
+        "tool": "calculator",
+        "args": {
+          "expression": "125 * 8 + 10"
+        },
+        "result": "1010",
+        "reasoning": "Model requested this tool; raw tool output was recorded."
+      },
+      {
+        "step": 3,
+        "kind": "model",
+        "reasoning": "The result is **1010**.",
+        "tool_calls": [],
+        "tool_call_ids": []
+      }
+    ],
+    "error": ""
+  },
+  {
+    "id": "missing_knowledge",
+    "query": "What is the history of the Roman Empire?",
+    "expected_tool": "rag_search",
+    "answer": "I\u2019m sorry, but the knowledge base does not provide enough information to answer that question.\n\nAnswer could not be fully verified against sources.",
+    "tool_used": "rag_search",
+    "verified": false,
+    "iterations": 3,
+    "tokens": 2574,
+    "termination_reason": "max_iterations",
+    "trace": [
+      {
+        "step": 1,
+        "kind": "model",
+        "reasoning": "Provider returned no textual reasoning; tool selection was recorded from the tool call.",
+        "tool_calls": [
+          {
+            "id": "fc_e03159d4-bba4-49e9-b194-d52ff5e2003e",
+            "name": "rag_search",
+            "args": {
+              "question": "What is the history of the Roman Empire?"
+            }
+          }
+        ],
+        "tool_call_ids": [
+          "fc_e03159d4-bba4-49e9-b194-d52ff5e2003e"
+        ]
+      },
+      {
+        "step": 2,
+        "kind": "tool",
+        "tool": "rag_search",
+        "args": {
+          "question": "What is the history of the Roman Empire?"
+        },
+        "result": "Retrieval-Augmented Generation (RAG) combines information\nretrieval with Large Language Models. A RAG system retrieves\nrelevant information from external documents and provides\nthat information to the language model before generating\nan answer.\n\nArtificial Intelligence (AI) is a field of computer science\nthat focuses on creating systems capable of performing tasks\nthat normally require human intelligence.\n\nMachine Learning (ML) is a subset of Artificial Intelligence.\nIt allows computers to learn patterns from data and make\npredictions or decisions without being explicitly programmed\nfor every task.",
+        "reasoning": "Model requested this tool; raw tool output was recorded."
+      },
+      {
+        "step": 3,
+        "kind": "model",
+        "reasoning": "I\u2019m sorry, but the knowledge base does not provide enough information to answer that question.",
+        "tool_calls": [],
+        "tool_call_ids": []
+      },
+      {
+        "step": 4,
+        "kind": "model",
+        "reasoning": "I\u2019m sorry, but the knowledge base does not provide enough information to answer that question.",
+        "tool_calls": [],
+        "tool_call_ids": []
+      },
+      {
+        "step": 5,
+        "kind": "model",
+        "reasoning": "I\u2019m sorry, but the knowledge base does not provide enough information to answer that question.",
+        "tool_calls": [],
+        "tool_call_ids": []
+      }
+    ],
+    "error": ""
+  },
+  {
+    "id": "no_tool",
+    "query": "Give me one short tip for writing clear prompts.",
+    "expected_tool": null,
+    "answer": "Use concise, specific language\u2014state exactly what you want in a single, clear sentence.\n\nAnswer could not be fully verified against sources.",
+    "tool_used": "rag_search",
+    "verified": false,
+    "iterations": 3,
+    "tokens": 4351,
+    "termination_reason": "max_iterations",
+    "trace": [
+      {
+        "step": 1,
+        "kind": "model",
+        "reasoning": "Use concise, specific language\u2014state exactly what you want and avoid vague or ambiguous terms.",
+        "tool_calls": [],
+        "tool_call_ids": []
+      },
+      {
+        "step": 2,
+        "kind": "model",
+        "reasoning": "Provider returned no textual reasoning; tool selection was recorded from the tool call.",
+        "tool_calls": [
+          {
+            "id": "fc_4bdae07c-04d6-4232-9747-3149397b264e",
+            "name": "rag_search",
+            "args": {
+              "question": "best practices for formulating concise and specific prompts"
+            }
+          }
+        ],
+        "tool_call_ids": [
+          "fc_4bdae07c-04d6-4232-9747-3149397b264e"
+        ]
+      },
+      {
+        "step": 3,
+        "kind": "tool",
+        "tool": "rag_search",
+        "args": {
+          "question": "best practices for formulating concise and specific prompts"
+        },
+        "result": "Retrieval-Augmented Generation (RAG) combines information\nretrieval with Large Language Models. A RAG system retrieves\nrelevant information from external documents and provides\nthat information to the language model before generating\nan answer.\n\nArtificial Intelligence (AI) is a field of computer science\nthat focuses on creating systems capable of performing tasks\nthat normally require human intelligence.\n\nMachine Learning (ML) is a subset of Artificial Intelligence.\nIt allows computers to learn patterns from data and make\npredictions or decisions without being explicitly programmed\nfor every task.",
+        "reasoning": "Model requested this tool; raw tool output was recorded."
+      },
+      {
+        "step": 4,
+        "kind": "model",
+        "reasoning": "Keep it concise and specific\u2014state exactly what you want in a single, clear sentence.",
+        "tool_calls": [],
+        "tool_call_ids": []
+      },
+      {
+        "step": 5,
+        "kind": "model",
+        "reasoning": "Provider returned no textual reasoning; tool selection was recorded from the tool call.",
+        "tool_calls": [
+          {
+            "id": "fc_81eb5dca-01e6-4d2f-a979-a28bd3c71bc4",
+            "name": "rag_search",
+            "args": {
+              "question": "short tip for writing clear prompts"
+            }
+          }
+        ],
+        "tool_call_ids": [
+          "fc_81eb5dca-01e6-4d2f-a979-a28bd3c71bc4"
+        ]
+      },
+      {
+        "step": 6,
+        "kind": "tool",
+        "tool": "rag_search",
+        "args": {
+          "question": "short tip for writing clear prompts"
+        },
+        "result": "Retrieval-Augmented Generation (RAG) combines information\nretrieval with Large Language Models. A RAG system retrieves\nrelevant information from external documents and provides\nthat information to the language model before generating\nan answer.\n\nArtificial Intelligence (AI) is a field of computer science\nthat focuses on creating systems capable of performing tasks\nthat normally require human intelligence.\n\nMachine Learning (ML) is a subset of Artificial Intelligence.\nIt allows computers to learn patterns from data and make\npredictions or decisions without being explicitly programmed\nfor every task.",
+        "reasoning": "Model requested this tool; raw tool output was recorded."
+      },
+      {
+        "step": 7,
+        "kind": "model",
+        "reasoning": "Use concise, specific language\u2014state exactly what you want in a single, clear sentence.",
+        "tool_calls": [],
+        "tool_call_ids": []
+      }
+    ],
+    "error": ""
+  }
+]

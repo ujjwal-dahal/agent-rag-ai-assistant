@@ -1,0 +1,75 @@
+{
+  "status": "passed",
+  "version": "prompt_v1",
+  "summary": {
+    "all_passed": true,
+    "total_tests": 2,
+    "success_tests": 2,
+    "failed_tests": 0,
+    "by_status": {
+      "SUCCESS": 2
+    }
+  },
+  "details": {
+    "reference_correctness": [
+      {
+        "id": "rag_definition",
+        "verdict": {
+          "category": "correct",
+          "reasoning": "The candidate answer preserves all material information from the approved reference answer. It correctly defines RAG as blending information retrieval with LLMs, describes the process of querying an external knowledge base, and explains that the retrieved passages are used to generate answers. The candidate's phrasing 'grounded in up-to-date or domain-specific information' is consistent with the reference's 'more accurate, up-to-date answer' and does not introduce any conflicting facts or contradictions."
+        }
+      },
+      {
+        "id": "calculator",
+        "verdict": {
+          "category": "correct",
+          "reasoning": "The candidate answer provides the value 1010, which matches the approved reference answer exactly. It does not invent any conflicting facts or omit material information."
+        }
+      },
+      {
+        "id": "missing_knowledge",
+        "verdict": {
+          "category": "correct",
+          "reasoning": "The candidate answer conveys the same core message as the approved reference answer: that there is insufficient information to answer the question. While the candidate adds a specific reference to a 'knowledge base' which is not explicitly in the reference, this does not contradict the reference's statement of lacking information. It preserves the material information (inability to answer due to lack of info) and does not invent conflicting facts about the history of the Roman Empire."
+        }
+      },
+      {
+        "id": "no_tool",
+        "verdict": {
+          "category": "incorrect",
+          "reasoning": "The approved reference answer provides a specific tip ('Be concise and specific...'). The candidate answer claims that the knowledge base does not provide enough information to answer the question. This contradicts the existence of the approved reference answer, which clearly contains the necessary information to answer the prompt. Therefore, the candidate answer fails to preserve the material information and contradicts the reference by denying the availability of the answer."
+        }
+      }
+    ],
+    "tool_appropriateness": [
+      {
+        "id": "rag_definition",
+        "verdict": {
+          "category": "correct",
+          "reasoning": "The expected tool is 'rag_search' and the actual tool used is also 'rag_search'. Since the selected tool matches the expected tool, the classification is correct."
+        }
+      },
+      {
+        "id": "calculator",
+        "verdict": {
+          "category": "correct",
+          "reasoning": "The expected tool is 'calculator' and the actual tool used is also 'calculator'. Since the selected tool matches the expected tool, the classification is correct."
+        }
+      },
+      {
+        "id": "missing_knowledge",
+        "verdict": {
+          "category": "correct",
+          "reasoning": "The expected tool is 'rag_search' and the actual tool used is also 'rag_search'. Since the selected tool matches the expected tool, the classification is correct."
+        }
+      },
+      {
+        "id": "no_tool",
+        "verdict": {
+          "category": "incorrect",
+          "reasoning": "The expected tool was 'nan' (indicating no tool or a specific non-tool response was expected, likely because the question is a general knowledge query that doesn't require external search or calculation). The actual tool used was 'rag_search'. Since the actual tool differs from the expected tool, the classification is incorrect."
+        }
+      }
+    ]
+  }
+}

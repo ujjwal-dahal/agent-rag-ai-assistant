@@ -1,0 +1,33 @@
+{
+  "status": "passed",
+  "version": "smoke",
+  "summary": {
+    "all_passed": true,
+    "total_tests": 2,
+    "success_tests": 2,
+    "failed_tests": 0,
+    "by_status": {
+      "SUCCESS": 2
+    }
+  },
+  "details": {
+    "reference_correctness": [
+      {
+        "id": "rag_definition",
+        "verdict": {
+          "category": "correct",
+          "reasoning": "The candidate answer is identical to the approved reference answer. It preserves all material information regarding the definition of RAG, the process of querying external knowledge bases, and the goal of generating fact-grounded responses. There are no contradictions or invented conflicting facts."
+        }
+      }
+    ],
+    "tool_appropriateness": [
+      {
+        "id": "rag_definition",
+        "verdict": {
+          "category": "correct",
+          "reasoning": "The expected tool is 'rag_search' and the actual tool used is also 'rag_search'. Since the selected tool matches the expected tool, the classification is correct."
+        }
+      }
+    ]
+  }
+}
