@@ -27,3 +27,4 @@ dependencies = [
 
 [project.scripts]
 run-mlops-evaluation = "mlops.evaluate:main"
+build-overall-report = "reports.build_overall_report:main"
